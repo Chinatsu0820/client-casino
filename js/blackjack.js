@@ -1,35 +1,40 @@
-$('.blackjack').append(`
-    <section class="dealer">
-        <section class="cards-inhand">
-            <section class="score">
-                <div>Dealer:</div>
-                <div id="score-inhand-dealer">0</div>
-            </section>
-            <div id="drawn-card-dealer"></div>
-        </section>
-        </section>
-        <section class="player">
-        <section class="cards-inhand">
-            <section class="score">
-                <div>Player:</div>
-                <div id="score-inhand">0</div>
-            </section>
-            <div id="drawn-card"></div>
-        </section>
-        <section class="buttons">
-            <button id="card-draw">Hit</button>
-            <button id="stand">Stand</button>
-            <button id="next-game">Next Game</button>
-        </section>
-    </section>
-`);
-
-// var suits = ["spades", "diamonds", "clubs", "hearts"];
-// var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
 let deck = new Array();
 let cardsInHandP = new Array();
 let cardsInHandD = new Array();
+
+$('.blackjack').append(`
+<section class="dealer">
+<section class="cards-inhand">
+    <section class="score">
+        <div>Dealer:</div>
+        <div id="score-inhand-dealer">0</div>
+    </section>
+    <div id="drawn-card-dealer"></div>
+</section>
+</section>
+<section class="player">
+<section class="cards-inhand">
+    <section class="score">
+        <div>Player:</div>
+        <div id="score-inhand">0</div>
+    </section>
+    <div id="drawn-card"></div>
+</section>
+<section class="buttons">
+    <button id="card-draw">Hit</button>
+    <button id="stand">Stand</button>
+    <button id="next-game">Next Game</button>
+</section>
+</section>
+<section id="coin">
+<h1>COIN:</h1>
+<h1 id="coinCounter">0</h1>
+</section>    
+`);
+
+// var suits = ["spades", "diamonds", "clubs", "hearts"];
+// var values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
 gameDefault();
 
@@ -71,6 +76,8 @@ $('#stand').click(() => {
 
 function gameDefault() {
     getDeck();
+    getCoin();
+    // $('#coinCounter').text(getCoin());
 
     // Player Default
     cardsInHandP = [];
@@ -120,6 +127,67 @@ function getDeck() {
         }
     });
     return deck;
+}
+
+function getCoin() {
+    let userCoin;
+    $.ajax({
+        url: "http://localhost:3000/blackjack",
+        type: 'GET',
+        headers: {
+            "task": "coin" // custom header
+        },
+        success: function (response) {
+            userCoin = response.coin;
+            $('#coinCounter').text(userCoin);
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+    return userCoin;
+}
+
+$('#stand').click(() => {
+    postCoin();
+});
+
+function postCoin() {
+    $.ajax({
+        url: "http://localhost:3000/blackjack",
+        type: 'POST',
+        headers: {
+            "task": "coin" // custom header
+        },
+        data: {
+            username: 'username',
+            password: 'password'
+        },
+        success: function (response) {
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+function getCoin() {
+    let userCoin;
+    $.ajax({
+        url: "http://localhost:3000/blackjack",
+        type: 'GET',
+        headers: {
+            "task": "coin" // custom header
+        },
+        success: function (response) {
+            userCoin = response.coin;
+            $('#coinCounter').text(userCoin);
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+    return userCoin;
 }
 
 function drawCard(deck, cardElement, scoreElement, cardsInHand) {
