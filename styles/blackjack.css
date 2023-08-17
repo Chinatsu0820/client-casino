@@ -5,7 +5,7 @@
 
 .dealer,
 .player {
-    height: 50%;
+    height: 45%;
 }
 
 .cards-inhand {
@@ -87,4 +87,8 @@
 .buttons button {
     font-size: 20px;
     width: 20vw;
+}
+
+#coin{
+    text-align: center;
 }
