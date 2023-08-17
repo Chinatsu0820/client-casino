@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz@10..48&display=swap');
+@import './styles/blackjack.css';
 
 * {
     padding: 0;
@@ -60,7 +61,7 @@ header {
 }
 
 .menu-link.game2 {
-    background-color: yellow;
+    background-color: green;
     box-shadow: 0 0.3em 0 rgb(115, 115, 62);
 }
 

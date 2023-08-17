@@ -56,7 +56,7 @@ mySlotElement.innerHTML = `
 </div>
 `;
 
-document.body.appendChild(mySlotElement);
+document.getElementById('game-slot').appendChild(mySlotElement);
 
 // スロットゲームの処理
 // 即時関数で囲っておく（スコープを限定）

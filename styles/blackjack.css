@@ -1,0 +1,90 @@
+.blackjack {
+    height: 90vh;
+    background-color: green;
+}
+
+.dealer,
+.player {
+    height: 50%;
+}
+
+.cards-inhand {
+    display: flex;
+    height: 30vh;
+}
+
+.score {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    text-align: center;
+}
+
+#drawn-card,
+#drawn-card-dealer {
+    /* border: 1px solid red; */
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* justify-content: center; */
+    gap: 5px;
+}
+
+#drawn-card .card,
+#drawn-card-dealer .card {
+    border: solid 1px #aaa;
+    border-radius: 9px;
+    width: 80px;
+    height: 120px;
+    background-color: white;
+    padding: 3px;
+}
+
+.card .value {
+    font-size: 15pt;
+    font-family: sans-serif;
+}
+
+.card .suit {
+    height: 100px;
+}
+
+.card .diamonds {
+    background-image: url('../imgs/mark_spade.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.card .spades {
+    background-image: url('../imgs/mark_diamond.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.card .hearts {
+    background-image: url('../imgs/mark_heart.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.card .clubs {
+    background-image: url('../imgs/mark_clover.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 5px;
+}
+
+.buttons button {
+    font-size: 20px;
+    width: 20vw;
+}
