@@ -160,8 +160,7 @@ function postCoin() {
             "task": "coin" // custom header
         },
         data: {
-            username: 'username',
-            password: 'password'
+            coin: 999
         },
         success: function (response) {
         },
@@ -169,25 +168,6 @@ function postCoin() {
             console.error("Error:", error);
         }
     });
-}
-
-function getCoin() {
-    let userCoin;
-    $.ajax({
-        url: "http://localhost:3000/blackjack",
-        type: 'GET',
-        headers: {
-            "task": "coin" // custom header
-        },
-        success: function (response) {
-            userCoin = response.coin;
-            $('#coinCounter').text(userCoin);
-        },
-        error: function (error) {
-            console.error("Error:", error);
-        }
-    });
-    return userCoin;
 }
 
 function drawCard(deck, cardElement, scoreElement, cardsInHand) {
