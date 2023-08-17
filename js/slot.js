@@ -21,10 +21,12 @@ mySlotElement.innerHTML = `
   padding: 3rem;
 }
 
-.slot-button {
+#stop {
+    font-size: 2rem;
     font-weight: bold;
     padding: 1rem;
     background-color: rgb(236, 56, 56);
+    margin-top: 3rem;
 }
 
 #reset {
@@ -38,51 +40,32 @@ mySlotElement.innerHTML = `
 <div class="game">
 <p class="slot-score">SCORE: <span id="score">0</span>&emsp;LEVEL: <span id="level">1</span></p>
 
-<div class="slot">
-    <div id="slot0">2</div>
-    <button id="stop0" class="slot-button">STOP</button>
+    <div id="slot0" class="slot"></div>
+
+    <div id="slot1" class="slot"></div>
+
+    <div id="slot2" class="slot"></div>
+
+<div>
+<button id="stop">STOP</button>
 </div>
 
-<div class="slot">
-    <div id="slot1">5</div>
-    <button id="stop1" class="slot-button">STOP</button>
-</div>
-
-<div class="slot">
-    <div id="slot2">8</div>
-    <button id="stop2" class="slot-button">STOP</button>
-</div>
 <button id="reset">RESET</button>
+
 </div>
 `;
 
 document.getElementById('game-slot').appendChild(mySlotElement);
 
 // スロットゲームの処理
-// 即時関数で囲っておく（スコープを限定）
+// 即時関数で囲っておく　IIFE (Immediately Invoked Function Expression)
 // 即時関数＝関数を定義すると同時に実行するための構文
 (function () {
     let score = 0; // 得点
     let level = 1; // レベル
-    let interval = 400; // スロットのスピード
+    let interval = [100, 400, 200]; // スロットのスピード
     let timers = []; // スロット
     let results = []; // スロットを止めた時の数字
-    let stopCount = [0, 0, 0]; // スロットを止めたか判別に使用(ボタンクリックの回数)
-
-    // 左のSTOPをクリックした時スロットを止める
-    document.getElementById('stop0').onclick = function () {
-        stopSlot(0);
-    }
-
-    // 中央のSTOPをクリックした時スロットを止める
-    document.getElementById('stop1').onclick = function () {
-        stopSlot(1);
-    }
-
-    // 右のSTOPをクリックした時スロットを止める
-    document.getElementById('stop2').onclick = function () {
-        stopSlot(2);
-    }
 
     // スロットをスタートさせる
     startSlot();
@@ -90,14 +73,13 @@ document.getElementById('game-slot').appendChild(mySlotElement);
     function startSlot() {
 
         // 初期化（空の状態に戻す）
-        stopCount = [0, 0, 0]; // スロットを止めたか判別に使用
         timers = []; // スロット
         results = []; // スロットを止めた時の数字
 
         // スロットの最初の数字を設定
-        document.getElementById('slot0').textContent = 2;
-        document.getElementById('slot1').textContent = 5;
-        document.getElementById('slot2').textContent = 8;
+        document.getElementById('slot0').textContent = 1;
+        document.getElementById('slot1').textContent = 3;
+        document.getElementById('slot2').textContent = 5;
 
         // スロットを回す
         runSlot(0);
@@ -123,26 +105,32 @@ document.getElementById('game-slot').appendChild(mySlotElement);
 
             // スロットの数字をカウントさせる処理
             runSlot(num);
-        }, interval);
+        }, interval[num]);
     }
 
-    // スロットを止める処理の中身
+    // 左のボタンをクリックした時のイベントハンドラ
+    document.getElementById('stop').onclick = function () {
+        // 各スロットの回転タイマーをクリア
+        clearTimeout(timers[0]);
+        clearTimeout(timers[1]);
+        clearTimeout(timers[2]);
+
+        // スロットを止めた処理
+        stopSlot(0);
+        stopSlot(1);
+        stopSlot(2);
+
+        // 止めた結果をチェック
+        checkResult();
+    }
+
+
+    // スロットを止めた処理
     function stopSlot(num) {
-
-        // スロットを止める
-        clearTimeout(timers[num]);
-
-        // スロットを止めた際の数字を取得
+        // スロットの結果を results 配列に格納
         results[num] = document.getElementById('slot' + num).textContent;
-
-        // スロットを止めたことを記録
-        stopCount[num] = 1;
-
-        // 全てのスロットを止めた場合に結果を表示する
-        if (stopCount[0] * stopCount[1] * stopCount[2] == 1) {
-            checkResult();
-        }
     }
+
 
     // 全てのスロットを止めた結果
     function checkResult() {
@@ -185,13 +173,44 @@ document.getElementById('game-slot').appendChild(mySlotElement);
         document.getElementById('level').textContent = 1;
         score = 0;
         level = 1;
-        interval = 400;
+        interval = [100, 400, 200];
         timers = [];
         results = [];
-        stopCount = [0, 0, 0];
 
         // スロットスタート
         startSlot();
     }
 
 })();
+
+
+// --------------Server ver------------------
+
+document.addEventListener('DOMContentLoaded', () => {
+    const stop = document.getElementById('stop');
+
+    // ボタンクリック時の処理(スロットを止めるためのリクエストをサーバーに送信)
+    stop.addEventListener('click', () => {
+        $.ajax({
+            url: "http://localhost:3000/slot", // サーバーのURL
+            type: 'POST', // POSTリクエストを送信
+            success: function (response) {
+                console.log("Response:", response);
+
+                // サーバーから受け取った結果に基づいて処理を行う
+                if (response.success) {
+                    const reward = response.reward;
+                    const newScore = response.newScore;
+                    console.log("I won $", reward);
+                    console.log("New Score:", newScore);
+                } else {
+                    // ゲームオーバーの場合の処理
+                    console.log("Game Over");
+                }
+            },
+            error: function (error) {
+                console.error("Error:", error);
+            }
+        });
+    });
+});
