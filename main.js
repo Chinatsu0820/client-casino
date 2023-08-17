@@ -3,11 +3,11 @@ $(document).ready(() => {
         console.log('btn clicked');
         e.preventDefault();
 
-        const answer = $('#answer').val();
+        const resposta = $('#answer').val();
 
         $.ajax({
             url: 'http://localhost:3000/',
-            data: {answer: answer},
+            data: {answer: resposta},
             success: (response) => {alert(response);},
             error: (error) => {alert(error);}
         });
