@@ -1,43 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casino App</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- HEADER -->
-    <header>
-        <h1 class="header-title">RGC CASINO</h1>
-        <p class="header-sub">It's time to play!</p>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Casino App</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+            crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <!-- HEADER -->
+        <header>
+            <h1 class="header-title">RGC CASINO</h1>
+            <p class="header-sub">It's time to play!</p>
 
-        <div class="menu-container">
-            <a class="menu-link game1" href="#">GAME NAME</a>
-            <a class="menu-link game2" href="#">GAME NAME</a>
-            <a class="menu-link game3" href="#game-slot">SLOT</a>
-        </div>
-    </header>
+            <div class="menu-container">
+                <a class="menu-link game1" href="#">GAME NAME</a>
+                <a class="menu-link game2" href="#blackjack">GAME NAME</a>
+                <a class="menu-link game3" href="#game-slot">SLOT</a>
+            </div>
+        </header>
 
-    <!-- GAMES -->
-    <main>
+        <!-- GAMES -->
+        <main>
 
-        <!-- SLOT -->
-        <my-slot id="game-slot"></my-slot>
+            <!-- SLOT -->
+            <my-slot id="game-slot"></my-slot>
 
-        <!-- JS LINK -->
-        <script src="js/slot.js"></script>
+            <!-- JS LINK -->
+            <script src="js/slot.js"></script>
 
-    </main>
+            <!-- Blackjack -->
+            <section class="blackjack" id="blackjack"></section>
 
-    <!-- FOOTER -->
-    <footer>
-        <p>©copyright 2023</p>
-        <p>E-mail: rgc-casino@info.com</p>
-    </footer>
+        </main>
 
-    
+        <!-- FOOTER -->
+        <footer>
+            <p>©copyright 2023</p>
+            <p>E-mail: rgc-casino@info.com</p>
+        </footer>
 
-</body>
+        <script src="./js/blackjack.js"></script>
+    </body>
 </html>
