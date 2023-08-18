@@ -1,44 +1,40 @@
-async function roulette(req) {
-    const {number, amount} = req.query;
-
-    return new Promise((resolve, reject) => {
-        var rng = Math.floor(Math.random() * 37);
-        var retorno;
-        if(number == 0){
-            if(number == rng){
-                retorno = amount * 35;
-                resolve(`You Win!\nRoll: `+rng+` Return: $`+retorno);``
-            }else{
-                resolve(`You Lose! Roll: `+rng);
-            }
-        }else if(number % 2 == 0){
-            if(rng % 2 == 0){
-                if(number == rng){
-                    retorno = amount * 10;
-                    resolve(`You Win!\nRoll: `+rng+` Return: $`+retorno);``
-                }else{
-                    retorno = amount * 1.5;
-                    resolve(`Roll: `+rng+` Return: $`+retorno);
-                }
-            }else{
-                resolve(`You Lose! Roll: `+rng);
-            }
-        }else{
-            if(rng % 2 != 0){
-                if(number == rng){
-                    retorno = amount * 10;
-                    resolve(`You Win!\nRoll: `+rng+` Return: $`+retorno);``
-                }else{
-                    retorno = amount * 1.5;
-                    resolve(`Roll: `+rng+` Return: $`+retorno);
-                }
-            }else{
-                resolve(`You Lose! Roll: `+rng);
-            }
-        }
-    });
+var betNumber;
+function numberPicker(num) {
+    betNumber = num;
+    if(betNumber == 0){
+        $('.pholder').html('<b style="color: lightgreen;">'+betNumber+'</b>');
+    }else if(betNumber % 2 == 0){
+        $('.pholder').html('<b style="color: rgb(236, 53, 53);">'+betNumber+'</b>');
+    }else{
+        $('.pholder').html('<b style="color: rgb(44, 44, 44);">'+betNumber+'</b>');
+    }
 }
 
-module.exports = {
-    roulette
-};
+function roll() {
+    var betAmount = $('#bet').val();
+    if(betAmount === ''){
+        alert('Invalid bet!');
+    }else if(betNumber === ''){
+        alert('Pick a number!');
+    }else{
+        $.ajax({
+            url: "http://localhost:3000/roulette",
+            type: 'GET',
+            headers: {
+                "task": "roulette"
+            },
+            data: {
+                number: betNumber,
+                amount: betAmount
+            },
+            success: function(response) {
+                // if a success response is received, print it here:
+                alert(response); 
+        
+            },
+            error: function(error) {
+                console.error("Error:", error);
+            }
+        });
+    }
+}
